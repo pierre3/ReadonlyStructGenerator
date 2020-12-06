@@ -59,6 +59,7 @@ namespace ReadonlyStructGenerator
                     var otherArgNams = string.Join(",", properties.Select(p => "other." + p.Name));
                     var sourceArgNames =  string.Join(",", properties.Select(p => "source." + p.Name));
                     var toStringParam = string.Join(",", properties.Select(p => "{" + p.Name + "}"));
+                    sb.AppendLine($"#nullable enable");
                     sb.AppendLine($"using System;");
                     sb.AppendLine($"namespace {namespaceName}");
                     sb.AppendLine($"{{");
@@ -69,9 +70,7 @@ namespace ReadonlyStructGenerator
                         sb.AppendLine($"        public {structName}({parameters}) => ({propNames}) = ({argNames});");
                     }
                     sb.AppendLine($"        public bool Equals({structName} other) => ({propNames}) == ({otherArgNams});");
-                    sb.AppendLine($"#nullable enable");
                     sb.AppendLine($"        public override bool Equals(object? obj) => (obj is {structName} other) && Equals(other);");
-                    sb.AppendLine($"#nullable disable");
                     sb.AppendLine($"        public override int GetHashCode() => HashCode.Combine({propNames});");
                     sb.AppendLine($"        public static bool operator ==({structName} left, {structName} right) => left.Equals(right);");
                     sb.AppendLine($"        public static bool operator !=({structName} left, {structName} right) => !(left == right);");

@@ -47,7 +47,6 @@ namespace SampleConsoleApp
         public byte G { get; init; }
         public byte B { get; init; }
         public byte A { get; init; }
-
     }
 
     [ReadonlyStructGenerator.ReadonlyStruct]
