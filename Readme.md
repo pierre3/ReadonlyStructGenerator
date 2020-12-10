@@ -17,7 +17,7 @@ public partial struct Point
 
 After the build, the following code will be generated.
 - Struct declaration with the readonly keyword.
-- 
+- Definition of a primary constructor.
 - Implement the `IEquatable<T>` interface.
 - Override `object.Equals()`, `object.GetHashCode()` and `object.ToString()`.
 - Define operator overloading (`==`, `!=`).
