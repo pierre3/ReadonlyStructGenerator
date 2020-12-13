@@ -61,8 +61,11 @@ namespace ReadonlyStructGenerator
                     var toStringParam = string.Join(",", properties.Select(p => "{" + p.Name + "}"));
                     sb.AppendLine($"#nullable enable");
                     sb.AppendLine($"using System;");
-                    sb.AppendLine($"namespace {namespaceName}");
-                    sb.AppendLine($"{{");
+                    if (!typeSymbol.ContainingNamespace.IsGlobalNamespace)
+                    {
+                        sb.AppendLine($"namespace {namespaceName}");
+                        sb.AppendLine($"{{");
+                    }
                     sb.AppendLine($"    readonly partial struct {structName} : IEquatable<{structName}>");
                     sb.AppendLine($"    {{");
                     if (!isConstructorDeclared)
@@ -76,7 +79,10 @@ namespace ReadonlyStructGenerator
                     sb.AppendLine($"        public static bool operator !=({structName} left, {structName} right) => !(left == right);");
                     sb.AppendLine($"        public override string ToString() => $\"{{nameof({structName})}}({toStringParam})\";");
                     sb.AppendLine($"    }}");
-                    sb.AppendLine($"}}");
+                    if (!typeSymbol.ContainingNamespace.IsGlobalNamespace)
+                    {
+                        sb.AppendLine($"}}");
+                    }
                     context.AddSource($"{structName}_generated.cs", SourceText.From(sb.ToString(), Encoding.UTF8));
                 }
             }
